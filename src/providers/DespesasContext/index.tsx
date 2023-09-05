@@ -1,0 +1,53 @@
+import { createContext, useEffect, useState } from "react";
+import { Api } from "../../../services";
+
+interface IDespesasContext {
+  despesas: IDespesas[];
+  addNewDespesas: (formData: any, caixa_id: number) => Promise<void>;
+}
+interface IDespesasProvider {
+  children: React.ReactNode;
+}
+export interface IDespesas {
+  id: number;
+  nome: string;
+  valor: number;
+}
+export const DespesasContext = createContext({} as IDespesasContext);
+
+export const DespesasProvider = ({ children }: IDespesasProvider) => {
+  const [despesas, setDespesas] = useState<IDespesas[]>([]);
+
+  useEffect(() => {
+    const getAllDespesas = async () => {
+      try {
+        const response = await Api.get("/despesas/");
+
+        setDespesas(response.data);
+      } catch (error) {
+        console.log("Ops... Algo deu errado, tente novamente!");
+      }
+    };
+    getAllDespesas();
+  }, []);
+
+  const addNewDespesas = async (formData: any, caixa_id: number) => {
+    try {
+      const response = await Api.post(`/caixa/${caixa_id}/despesas/`, {
+        nome: formData.nome,
+        valor: Number(formData.valor),
+      });
+
+      setDespesas([...despesas, response.data]);
+      alert("Nova despesa cadastrada!");
+    } catch (error) {
+      alert("Ops... Algo deu errado, tente novamente!");
+    }
+  };
+
+  return (
+    <DespesasContext.Provider value={{ despesas, addNewDespesas }}>
+      {children}
+    </DespesasContext.Provider>
+  );
+};
