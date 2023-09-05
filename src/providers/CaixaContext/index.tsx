@@ -1,11 +1,17 @@
 import { createContext, useEffect, useState } from "react";
 import { Api } from "../../../services";
 import { IDespesas } from "../DespesasContext";
+import { IReceitas } from "../ReceitasContext";
 
 interface ICaixaContext {
   caixas: ICaixa[];
   addNewCaixa: () => Promise<void>;
   deleteCaixa: (id: number) => Promise<void>;
+  modalCaixa: boolean
+  setModalCaixa: React.Dispatch<React.SetStateAction<boolean>>
+  setCaixas: React.Dispatch<React.SetStateAction<ICaixa[]>>
+  editTotal: (id: number, valor: number) => Promise<void>
+
 }
 interface ICaixaProvider {
   children: React.ReactNode;
@@ -14,12 +20,16 @@ export interface ICaixa {
   id: number;
   data: string;
   despesas: IDespesas[];
-  receitas: [];
+  receitas: IReceitas[];
+  total:number
 }
 export const CaixaContext = createContext({} as ICaixaContext);
 
 export const CaixaProvider = ({ children }: ICaixaProvider) => {
   const [caixas, setCaixas] = useState<ICaixa[]>([]);
+  const [modalCaixa, setModalCaixa] = useState(false);
+
+
 
   useEffect(() => {
     const getAllCaixas = async () => {
@@ -39,7 +49,7 @@ export const CaixaProvider = ({ children }: ICaixaProvider) => {
       const response = await Api.post("/caixa/");
 
       setCaixas([...caixas, response.data]);
-      alert("Caixa criado com sucesso!");
+     console.log("Caixa criado com sucesso!");
     } catch (error) {
       console.log("Ops... Algo deu errado, tente novamente!");
     }
@@ -51,15 +61,28 @@ export const CaixaProvider = ({ children }: ICaixaProvider) => {
 
       const newCaixa = caixas.filter((caixa) => caixa.id !== id);
 
-      alert("Entrega deletada com sucesso!");
+      console.log("Entrega deletada com sucesso!");
       setCaixas([...newCaixa]);
     } catch (error) {
       alert("Ops... Algo deu errado, tente novamente!");
     }
   };
 
+  const editTotal= async (id:number, valor:number) => {
+    
+    try {
+      const response = await Api.patch(`/caixa/${id}`, {
+      "total":valor
+      });
+      setCaixas(response.data);
+      console.log("Total atualizado com sucesso!");
+    } catch (error) {
+      console.log("Ops... Algo deu errado, tente novamente!");
+    } 
+  };
+
   return (
-    <CaixaContext.Provider value={{ caixas, addNewCaixa, deleteCaixa }}>
+    <CaixaContext.Provider value={{ caixas, addNewCaixa, deleteCaixa, modalCaixa, setModalCaixa, setCaixas,editTotal}}>
       {children}
     </CaixaContext.Provider>
   );
