@@ -6,8 +6,7 @@ interface ICAixaCard {
 }
 
 export const CaixaCard = ({ caixa }: ICAixaCard) => {
-
-const{editTotal}=useContext(CaixaContext)
+  const { caixas } = useContext(CaixaContext);
 
   const meses = [
     "Jan",
@@ -23,9 +22,15 @@ const{editTotal}=useContext(CaixaContext)
     "Nov",
     "Dez",
   ];
+
   let data = new Date(caixa.data);
   let dataFormatada =
-    data.getDate() + " " + meses[data.getMonth()] + " " + data.getFullYear();
+    data.getDate() +
+    1 +
+    " " +
+    meses[data.getMonth()] +
+    " " +
+    data.getFullYear();
 
   const filterReceitas = caixa.receitas.map((valor: any) => {
     return Number(valor.valor);
@@ -43,15 +48,24 @@ const{editTotal}=useContext(CaixaContext)
     return anterior + proximo;
   }, 0);
 
-  const total = receitas - despesas;
+  const saldo = caixas.map((caixa) => {
+    return Number(caixa.total);
+  });
 
-  
+  const saldoTotal = saldo.reduce((anterior, proximo) => {
+    return anterior + proximo;
+  }, 0);
+
+  caixa.saldo_anterior=saldoTotal
+
+
   return (
     <li>
       <h3>Data: {dataFormatada}</h3>
       <p>Receitas: R$ {receitas}</p>
       <p>Despesas: R$ {despesas}</p>
-      <strong>Saldo : R$ {caixa.total}</strong>
+      <strong>Total: R$ {caixa.total}</strong>
+      <h3> Saldo: R${caixa.saldo_anterior}</h3>
     </li>
   );
 };

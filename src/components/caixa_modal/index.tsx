@@ -1,12 +1,13 @@
-import { useContext } from "react";
-import { FormReceitas } from "./form_receitas";
-import { FormDespesas } from "./from_despesas";
+import { useContext, useState } from "react";
+import { FormReceitas, IFormReceitasComplete } from "./form_receitas";
+import { FormDespesas, IFormDespesasComplete } from "./form_despesas";
 import { CaixaContext } from "../../providers/CaixaContext";
 import { ReceitasContext } from "../../providers/ReceitasContext";
 import { DespesasContext } from "../../providers/DespesasContext";
 
 export const CaixaModal = () => {
-  const { caixas, setModalCaixa, editTotal} = useContext(CaixaContext);
+  const { caixas, setModalCaixa, editTotal, setCaixas } =
+    useContext(CaixaContext);
   const { formReceitas, setFormReceitas } = useContext(ReceitasContext);
   const { formDespesas, setFormDespesas } = useContext(DespesasContext);
 
@@ -26,49 +27,36 @@ export const CaixaModal = () => {
     "Nov",
     "Dez",
   ];
-  
-  const dataActual = String(new Date())
 
-    let data = new Date(dataActual);
-    let dataFormatada =
-      data.getDate() + " " + meses[data.getMonth()] + " " + data.getFullYear();
-  
-    
-  
+  const dataActual = String(new Date());
 
-    const renderFormReceitas = () => {
-      setFormReceitas(!formReceitas);
-    };
+  let data = new Date(dataActual);
+  let dataFormatada =
+    data.getDate() + " " + meses[data.getMonth()] + " " + data.getFullYear();
+
+  const renderFormReceitas = () => {
+    setFormReceitas(!formReceitas);
+  };
 
   const renderFormDespesas = () => {
     setFormDespesas(!formDespesas);
   };
 
+  const [receitas, setReceitas] = useState(0);
+  const [despesas, setDespesas] = useState(0);
 
-  const filterReceitas = atual_caixa.receitas.map((valor: any) => {
-    return Number(valor.valor);
-  });
+  const getFormDataReceitas = (formdata: IFormReceitasComplete) => {
+    setReceitas(formdata.valor);
+  };
 
-  const receitas = filterReceitas.reduce((anterior, proximo) => {
-    return anterior + proximo;
-  }, 0);
+  const getFormDataDespesas = (formdata: IFormDespesasComplete) => {
+    setDespesas(Number(formdata.valor));
+  };
 
-  const filterDespesas = atual_caixa.despesas.map((valor: any) => {
-    return Number(valor.valor);
-  });
-
-  const despesas = filterDespesas.reduce((anterior, proximo) => {
-    return anterior + proximo;
-  }, 0);
-
-  const total = receitas - despesas;
-
-  
-
-  console.log(atual_caixa.receitas)
+  const total = Number(receitas) - Number(despesas);
 
   const closeCaixa = () => {
-    editTotal(atual_caixa.id, total)
+    editTotal(atual_caixa.id, total);
     setModalCaixa(false);
     alert(`Caixa do dia ${dataFormatada} fechado com sucesso !`);
   };
@@ -89,13 +77,19 @@ export const CaixaModal = () => {
 
       {formReceitas ? (
         <>
-          <FormReceitas id={atual_caixa.id} />
+          <FormReceitas
+            id={atual_caixa.id}
+            getFormDataReceitas={getFormDataReceitas}
+          />
         </>
       ) : null}
 
       {formDespesas ? (
         <>
-          <FormDespesas id={atual_caixa.id} />
+          <FormDespesas
+            id={atual_caixa.id}
+            getFormDataDespesas={getFormDataDespesas}
+          />
         </>
       ) : null}
     </div>

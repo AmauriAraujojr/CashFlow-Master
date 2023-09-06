@@ -4,19 +4,21 @@ import { DespesasContext } from "../../../providers/DespesasContext";
 
 interface IFormDespesas {
   id: number;
+  getFormDataDespesas: (formdata: IFormDespesasComplete) => void
 }
 export interface IFormDespesasComplete {
   nome:string
   valor:number
  }
 
-export const FormDespesas = ({ id }: IFormDespesas) => {
+export const FormDespesas = ({ id , getFormDataDespesas}: IFormDespesas) => {
 
   const { register, handleSubmit } = useForm<IFormDespesasComplete>();
   const { addNewDespesas } = useContext(DespesasContext);
 
   const submit:SubmitHandler<IFormDespesasComplete> = (formdata) => {
     addNewDespesas(formdata, id);
+    getFormDataDespesas(formdata)
   };
 
   return (

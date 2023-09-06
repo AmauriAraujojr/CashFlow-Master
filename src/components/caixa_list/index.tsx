@@ -5,8 +5,8 @@ import { CaixaCard } from "./caixa_card"
 export const CaixaList=()=>{
 
     const{caixas}=useContext(CaixaContext)
-
-    return(
+    
+       return(
 
         <section>
             {caixas.map(caixa=>{

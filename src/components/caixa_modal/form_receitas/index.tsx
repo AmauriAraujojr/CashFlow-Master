@@ -3,7 +3,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { ReceitasContext } from "../../../providers/ReceitasContext";
 
 interface IFormreceitas {
-  id: number;
+  id: number;  
+  getFormDataReceitas: (formdata: IFormReceitasComplete) => void
+
 }
 
 export interface IFormReceitasComplete {
@@ -11,13 +13,14 @@ export interface IFormReceitasComplete {
  valor:number
 }
 
-export const FormReceitas = ({ id }: IFormreceitas) => {
+export const FormReceitas = ({ id, getFormDataReceitas }: IFormreceitas) => {
 
   const { register, handleSubmit } = useForm<IFormReceitasComplete>();
   const { addNewReceitas } = useContext(ReceitasContext);
 
   const submit:SubmitHandler<IFormReceitasComplete> = (formData) => {
     addNewReceitas(formData, id);
+    getFormDataReceitas(formData)
   };
 
   return (

@@ -7,11 +7,10 @@ interface ICaixaContext {
   caixas: ICaixa[];
   addNewCaixa: () => Promise<void>;
   deleteCaixa: (id: number) => Promise<void>;
-  modalCaixa: boolean
-  setModalCaixa: React.Dispatch<React.SetStateAction<boolean>>
-  setCaixas: React.Dispatch<React.SetStateAction<ICaixa[]>>
-  editTotal: (id: number, valor: number) => Promise<void>
-
+  modalCaixa: boolean;
+  setModalCaixa: React.Dispatch<React.SetStateAction<boolean>>;
+  setCaixas: React.Dispatch<React.SetStateAction<ICaixa[]>>;
+  editTotal: (id: number, valor: number) => Promise<void>;
 }
 interface ICaixaProvider {
   children: React.ReactNode;
@@ -21,16 +20,15 @@ export interface ICaixa {
   data: string;
   despesas: IDespesas[];
   receitas: IReceitas[];
-  total:number
+  total: number;
+ saldo_anterior:number
 }
 export const CaixaContext = createContext({} as ICaixaContext);
 
 export const CaixaProvider = ({ children }: ICaixaProvider) => {
   const [caixas, setCaixas] = useState<ICaixa[]>([]);
   const [modalCaixa, setModalCaixa] = useState(false);
-
-
-
+  
   useEffect(() => {
     const getAllCaixas = async () => {
       try {
@@ -42,14 +40,14 @@ export const CaixaProvider = ({ children }: ICaixaProvider) => {
       }
     };
     getAllCaixas();
-  }, []);
-
+  }, [caixas]);
+  
   const addNewCaixa = async () => {
     try {
       const response = await Api.post("/caixa/");
 
       setCaixas([...caixas, response.data]);
-     console.log("Caixa criado com sucesso!");
+      console.log("Caixa criado com sucesso!");
     } catch (error) {
       console.log("Ops... Algo deu errado, tente novamente!");
     }
@@ -57,7 +55,7 @@ export const CaixaProvider = ({ children }: ICaixaProvider) => {
 
   const deleteCaixa = async (id: number) => {
     try {
-      await Api.delete(`/caixa/${id}/`, {});
+      await Api.delete(`/caixa/${id}/`);
 
       const newCaixa = caixas.filter((caixa) => caixa.id !== id);
 
@@ -68,21 +66,31 @@ export const CaixaProvider = ({ children }: ICaixaProvider) => {
     }
   };
 
-  const editTotal= async (id:number, valor:number) => {
-    
+  const editTotal = async (id: number, total: number) => {
     try {
-      const response = await Api.patch(`/caixa/${id}`, {
-      "total":valor
+      const response = await Api.patch(`/caixa/${id}/`, {
+        total: total,
       });
       setCaixas(response.data);
+      setCaixas([...caixas]);
       console.log("Total atualizado com sucesso!");
     } catch (error) {
       console.log("Ops... Algo deu errado, tente novamente!");
-    } 
+    }
   };
 
   return (
-    <CaixaContext.Provider value={{ caixas, addNewCaixa, deleteCaixa, modalCaixa, setModalCaixa, setCaixas,editTotal}}>
+    <CaixaContext.Provider
+      value={{
+        caixas,
+        addNewCaixa,
+        deleteCaixa,
+        modalCaixa,
+        setModalCaixa,
+        setCaixas,
+        editTotal,
+      }}
+    >
       {children}
     </CaixaContext.Provider>
   );
