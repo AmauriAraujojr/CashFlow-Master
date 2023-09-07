@@ -11,6 +11,7 @@ interface IFormreceitas {
 export interface IFormReceitasComplete {
  nome:string
  valor:number
+ tipo:string
 }
 
 export const FormReceitas = ({ id, getFormDataReceitas }: IFormreceitas) => {
@@ -29,6 +30,14 @@ export const FormReceitas = ({ id, getFormDataReceitas }: IFormreceitas) => {
       <div>
         <input type="text" {...register("nome")} />
         <input type="text" {...register("valor")} />
+        <select {...register("tipo")}>
+          <option >Escolha um tipo de entrada</option>
+          <option value={"dinheiro"}>Dinheiro</option>
+          <option value={"cartao"}>Cartão</option>
+          <option value={"pix"}>Pix</option>
+
+
+        </select>
         <button>Adicionar</button>
       </div>
     </form>

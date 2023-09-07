@@ -48,24 +48,25 @@ export const CaixaCard = ({ caixa }: ICAixaCard) => {
     return anterior + proximo;
   }, 0);
 
-  const saldo = caixas.map((caixa) => {
-    return Number(caixa.total);
+  const caixa_anterior = caixas.find((el) => {
+    return el.id == caixa.id - 1;
   });
 
-  const saldoTotal = saldo.reduce((anterior, proximo) => {
-    return anterior + proximo;
-  }, 0);
-
-  caixa.saldo_anterior=saldoTotal
-
+  if (caixa_anterior) {
+    caixa.saldo_anterior =
+      Number(caixa_anterior.total) + Number(caixa_anterior.saldo_anterior);
+  } else {
+    caixa.saldo_anterior = 0;
+  }
 
   return (
     <li>
       <h3>Data: {dataFormatada}</h3>
+      <h3> Saldo Anterior : R$ {caixa.saldo_anterior}</h3>
+
       <p>Receitas: R$ {receitas}</p>
       <p>Despesas: R$ {despesas}</p>
       <strong>Total: R$ {caixa.total}</strong>
-      <h3> Saldo: R${caixa.saldo_anterior}</h3>
     </li>
   );
 };

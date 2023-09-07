@@ -46,6 +46,7 @@ export const ReceitasProvider = ({ children }: IReceitasProvider) => {
       const response = await Api.post(`/caixa/${caixa_id}/receitas/`, {
         nome: formData.nome,
         valor: Number(formData.valor),
+        tipo:formData.tipo
       });
 
       setReceitas([...receitas, response.data]);

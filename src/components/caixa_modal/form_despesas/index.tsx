@@ -9,6 +9,7 @@ interface IFormDespesas {
 export interface IFormDespesasComplete {
   nome:string
   valor:number
+  tipo:string
  }
 
 export const FormDespesas = ({ id , getFormDataDespesas}: IFormDespesas) => {
@@ -27,6 +28,8 @@ export const FormDespesas = ({ id , getFormDataDespesas}: IFormDespesas) => {
       <div>
         <input type="text" {...register("nome")} />
         <input type="text" {...register("valor")} />
+        <input type="text" {...register("tipo")} />
+
         <button>Adicionar</button>
       </div>
     </form>

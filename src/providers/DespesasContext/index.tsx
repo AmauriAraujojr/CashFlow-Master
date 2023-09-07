@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { Api } from "../../../services";
-import { IFormDespesasComplete } from "../../components/caixa_modal/from_despesas";
+import { IFormDespesasComplete } from "../../components/caixa_modal/form_despesas";
 
 interface IDespesasContext {
   despesas: IDespesas[];
@@ -40,6 +40,7 @@ export const DespesasProvider = ({ children }: IDespesasProvider) => {
       const response = await Api.post(`/caixa/${caixa_id}/despesas/`, {
         nome: formData.nome,
         valor: Number(formData.valor),
+        tipo:formData.tipo
       });
 
       setDespesas([...despesas, response.data]);
