@@ -18,6 +18,7 @@ export interface IReceitas {
   id: number;
   nome: string;
   valor: number;
+  tipo:string
 }
 export const ReceitasContext = createContext({} as IReceitasContext);
 

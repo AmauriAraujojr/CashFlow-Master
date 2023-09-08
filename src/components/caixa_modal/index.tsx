@@ -4,6 +4,11 @@ import { FormDespesas, IFormDespesasComplete } from "./form_despesas";
 import { CaixaContext } from "../../providers/CaixaContext";
 import { ReceitasContext } from "../../providers/ReceitasContext";
 import { DespesasContext } from "../../providers/DespesasContext";
+import { StyledCaixaModal } from "./styled";
+import { AiFillCaretUp} from "react-icons/ai";
+
+import { AiFillCaretDown} from "react-icons/ai";
+
 
 export const CaixaModal = () => {
   const { caixas, setModalCaixa, editTotal, setCaixas } =
@@ -62,16 +67,24 @@ export const CaixaModal = () => {
   };
 
   return (
-    <div role="dialog">
+    <StyledCaixaModal>
+
+
       {!formReceitas && !formDespesas ? (
-        <div className="optionsContainer">
-          <h1>{dataFormatada}</h1>
-          <button onClick={() => closeCaixa()}>Fechar Caixa</button>
-          <p className="titleOptionsContainer">Qual opção ?</p>
-          <div className="optionsCard__container">
-            <button onClick={() => renderFormReceitas()}>Receitas</button>
-            <button onClick={() => renderFormDespesas()}>Despesas</button>
+        <div role="dialog" className="modal">
+            <h2>Fuxo de Caixa em: {dataFormatada}</h2>
+
+
+          <div className="options">
+            <h3 className="titleOptionsContainer">Cadastre uma opção !</h3>
+            <div className="optionsCard">
+              <button className="green_button" onClick={() => renderFormReceitas()}><AiFillCaretUp/> Receitas</button>
+              <button onClick={() => renderFormDespesas()}>Despesas <AiFillCaretDown/></button>
+            </div>
+
           </div>
+          <button className="fechamento" onClick={() => closeCaixa()}>Fechar Caixa</button>
+
         </div>
       ) : null}
 
@@ -92,6 +105,6 @@ export const CaixaModal = () => {
           />
         </>
       ) : null}
-    </div>
+    </StyledCaixaModal>
   );
 };

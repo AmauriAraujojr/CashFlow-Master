@@ -1,5 +1,9 @@
 import { useContext } from "react";
 import { CaixaContext, ICaixa } from "../../../providers/CaixaContext";
+import { StyledCaixaCard } from "./style";
+import { ReceitaCard } from "./receita_card";
+import { DespesaCard } from "./despesa_card";
+import{FcCalendar} from"react-icons/fc"
 
 interface ICAixaCard {
   caixa: ICaixa;
@@ -32,6 +36,8 @@ export const CaixaCard = ({ caixa }: ICAixaCard) => {
     " " +
     data.getFullYear();
 
+ 
+
   const filterReceitas = caixa.receitas.map((valor: any) => {
     return Number(valor.valor);
   });
@@ -60,13 +66,37 @@ export const CaixaCard = ({ caixa }: ICAixaCard) => {
   }
 
   return (
-    <li>
-      <h3>Data: {dataFormatada}</h3>
-      <h3> Saldo Anterior : R$ {caixa.saldo_anterior}</h3>
+    <StyledCaixaCard>
+      <h3 id="data"><FcCalendar/> {dataFormatada}</h3>
+      <h3> Saldo Anterior : R$ {caixa.saldo_anterior.toFixed(2)}</h3>
 
-      <p>Receitas: R$ {receitas}</p>
-      <p>Despesas: R$ {despesas}</p>
-      <strong>Total: R$ {caixa.total}</strong>
-    </li>
+      <div className={"ul"}>
+
+      {caixa.receitas.map((receita: any) => {
+      return  <ReceitaCard key={receita.id} receita={receita}/>
+      
+      })}
+
+      </div>
+      <p className="detalhes_dia">Receitas do dia: R$ {receitas.toFixed(2)}</p>
+
+
+      <div className="ul">
+      {caixa.despesas.map((despesa: any) => {
+      return  <DespesaCard key={despesa.id} despesa={despesa}/>
+      
+      })}
+
+      
+
+      </div>
+      <p className="detalhes_dia" >Despesas do dia: R$ {despesas.toFixed(2)}</p>
+
+        
+      
+        
+   
+
+    </StyledCaixaCard>
   );
 };

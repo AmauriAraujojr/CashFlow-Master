@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ReceitasContext } from "../../../providers/ReceitasContext";
+import { StyledForm } from "./styled";
 
 interface IFormreceitas {
   id: number;  
@@ -17,7 +18,7 @@ export interface IFormReceitasComplete {
 export const FormReceitas = ({ id, getFormDataReceitas }: IFormreceitas) => {
 
   const { register, handleSubmit } = useForm<IFormReceitasComplete>();
-  const { addNewReceitas } = useContext(ReceitasContext);
+  const { addNewReceitas,setFormReceitas } = useContext(ReceitasContext);
 
   const submit:SubmitHandler<IFormReceitasComplete> = (formData) => {
     addNewReceitas(formData, id);
@@ -25,10 +26,17 @@ export const FormReceitas = ({ id, getFormDataReceitas }: IFormreceitas) => {
   };
 
   return (
+    <StyledForm>
+
+      <h3>Receitas</h3>
+      <button className="closeButton" onClick={()=>setFormReceitas(false)}>Cancelar</button>
+
+
     <form onSubmit={handleSubmit(submit)}>
-      <h1>Receitas</h1>
-      <div>
+      <div className="input_container">
+        <label>Descrição da entrada</label>
         <input type="text" {...register("nome")} />
+        <label>Valor R$</label>
         <input type="text" {...register("valor")} />
         <select {...register("tipo")}>
           <option >Escolha um tipo de entrada</option>
@@ -36,10 +44,11 @@ export const FormReceitas = ({ id, getFormDataReceitas }: IFormreceitas) => {
           <option value={"cartao"}>Cartão</option>
           <option value={"pix"}>Pix</option>
 
-
         </select>
-        <button>Adicionar</button>
       </div>
+
+        <button>Adicionar</button>
     </form>
+    </StyledForm>
   );
 };

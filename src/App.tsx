@@ -1,8 +1,10 @@
-import { useContext, useState } from "react";
-import "./App.css";
+import { useContext} from "react";
 import { CaixaContext } from "./providers/CaixaContext";
 import { CaixaModal } from "./components/caixa_modal";
 import { CaixaList } from "./components/caixa_list";
+import { Header } from "./components/header";
+import { GlobalStyles} from "./styles/globalStyle.tsx"
+import { StyledContainer } from "./styles/grid.ts";
 
 const App=()=> {
 
@@ -15,10 +17,16 @@ const App=()=> {
 
   return (
     <>
-      {modalCaixa ? <CaixaModal /> : null}
+<GlobalStyles/>
 
+      <Header/>
+
+<StyledContainer>
+  
       <CaixaList/>
+</StyledContainer>
 
+{modalCaixa ? <CaixaModal /> : null}
       <button onClick={() => newCaixa()}>Novo Caixa</button>
     </>
   );

@@ -1,6 +1,8 @@
 import { useContext } from "react";
 import { CaixaContext } from "../../providers/CaixaContext";
 import { CaixaCard } from "./caixa_card";
+import { StyledCaixaList } from "./style";
+import { HeaderControls } from "../headerControls";
 
 export const CaixaList = () => {
   const { caixas } = useContext(CaixaContext);
@@ -23,42 +25,16 @@ export const CaixaList = () => {
     return caixa.data.slice(0, 7) == dataFormatada;
   });
 
-  const meses = [
-    "Jan",
-    "Fev",
-    "Mar",
-    "Abr",
-    "Mai",
-    "Jun",
-    "Jul",
-    "Ago",
-    "Set",
-    "Out",
-    "Nov",
-    "Dez",
-  ];
-
-  let data = new Date();
-  let dataForm =
-    data.getDate() +
-    
-    " - " +
-    meses[data.getMonth()] +
-    " - " +
-    data.getFullYear() + 
-    "  | "+ 
-    data.getHours()+
-    " : "+
-    data.getMinutes()+
-    " : "+
-    data.getSeconds()
 
   return (
-    <section>
-        <h1>{dataForm}</h1>
+    <StyledCaixaList>
+      <HeaderControls/>
+      <ul>
+
       {dataCaixa.map((caixa) => {
         return <CaixaCard key={caixa.id} caixa={caixa} />;
       })}
-    </section>
+      </ul>
+    </StyledCaixaList>
   );
 };

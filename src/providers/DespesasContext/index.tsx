@@ -15,6 +15,7 @@ export interface IDespesas {
   id: number;
   nome: string;
   valor: number;
+  tipo:string
 }
 export const DespesasContext = createContext({} as IDespesasContext);
 
