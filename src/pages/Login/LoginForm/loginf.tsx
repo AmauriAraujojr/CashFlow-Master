@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema } from "./schema";
 
 
-interface IF{
+export interface IF{
     username:string
     password:string
 }

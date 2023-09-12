@@ -1,8 +1,9 @@
 import React, { createContext, useEffect, useState } from "react";
 import { Api } from "../../../services.ts";
 import jwtDecode from "jwt-decode";
-import { ILoginFormData } from "../../pages/Login/LoginForm/LoginForm.tsx";
 import { useNavigate } from "react-router-dom";
+import { IR } from "../../pages/Register/RegisterForm/formR.tsx";
+import { IF } from "../../pages/Login/LoginForm/loginf.tsx";
 
 interface IUserProvider {
   children: React.ReactNode;
@@ -11,12 +12,9 @@ interface IUserProvider {
 interface IUserContext {
   logout: () => void;
   user: IUser | null;
-  userLogin: (formdata: ILoginFormData
-    
-    , setLoading: React.Dispatch<React.SetStateAction<boolean>>
-    
-    ) => Promise<void>;
+  userLogin: (formData: IF, setLoading: React.Dispatch<React.SetStateAction<boolean>>) => Promise<void>
   load: boolean;
+  addNewUser: (formdata: IR, setLoad: React.Dispatch<React.SetStateAction<boolean>>) => Promise<void>
 }
 
 interface IUser {
@@ -34,7 +32,7 @@ export const UserProvider = ({ children }: IUserProvider) => {
   const [load, setLoad] = useState(true);
   const navigate = useNavigate();
 
-  const userLogin = async (formData: ILoginFormData
+  const userLogin = async (formData: IF
     
     ,setLoading: React.Dispatch<React.SetStateAction<boolean>>
     
@@ -105,8 +103,31 @@ export const UserProvider = ({ children }: IUserProvider) => {
     navigate("/");
   };
 
+  const addNewUser=async(formdata:IR, setLoad:React.Dispatch<React.SetStateAction<boolean>>)=>{
+    setLoad(true)
+    try {
+
+      await Api.post("/users/",{
+        username:formdata.username,
+        password:formdata.password,
+        email: formdata.email,
+        nome_empresa: formdata.nome_empresa,
+        avatar_empresa: formdata.avatar_empresa
+      });
+      console.log("Empresa cadastrada com sucesso!");
+      navigate("/")
+      
+    } catch (error) {
+      console.log(error)
+    }finally{
+      setLoad(false)
+    }
+
+
+  }
+
   return (
-    <UserContext.Provider value={{ logout, user, userLogin, load }}>
+    <UserContext.Provider value={{ logout, user, userLogin, load, addNewUser }}>
       {children}
     </UserContext.Provider>
   );
