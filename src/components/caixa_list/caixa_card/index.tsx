@@ -81,7 +81,7 @@ export const CaixaCard = ({ caixa }: ICAixaCard) => {
       <p className="detalhes_dia">Receitas do dia: R$ {receitas.toFixed(2)}</p>
 
 
-      <div className="ul">
+      <div className="ul_card">
       {caixa.despesas.map((despesa: any) => {
       return  <DespesaCard key={despesa.id} despesa={despesa}/>
       

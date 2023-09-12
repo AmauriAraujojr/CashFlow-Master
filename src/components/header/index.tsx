@@ -3,8 +3,20 @@ import { StyledHeader } from "./style";
 import {BsClockFill}from"react-icons/bs"
 import{FcCalendar} from"react-icons/fc"
 import perfil from "../../assets/laf.jpg"
+import { useContext, useState } from "react";
+import { UserContext } from "../../providers/UserContext";
+import{BiSolidLogOutCircle} from "react-icons/bi"
 
-export const Header = () => {
+interface IHeader{
+  setDefaultDiv: React.Dispatch<React.SetStateAction<boolean>>
+  defaultDiv: boolean
+}
+export const Header = ({setDefaultDiv, defaultDiv}:IHeader) => {
+
+  const[logoutButton,setLogoutButton]= useState(false)
+  const {logout,user}= useContext(UserContext)
+
+
   const meses = [
     "Jan",
     "Fev",
@@ -33,14 +45,26 @@ export const Header = () => {
     meses[data.getMonth()] +
     " - " +
     data.getFullYear() 
+
+    const logoutUser= ()=>{
+      setDefaultDiv(!defaultDiv)
+      setLogoutButton(!logoutButton)
+    }
     
   return (
     <StyledHeader>
       <StyledContainer>
         <div className="flexBox">
+
+          <div className="img_container">
+
+  <img src={user?.avatar_empresa} onClick={()=>logoutUser()} />
+  {logoutButton? <button className="btn_logout" onClick={()=>logout()}><BiSolidLogOutCircle/>Sair</button>:null}   
+      
+          </div>
   
-  <img src={perfil} />    
-      <h2>Controle de caixa La Focaccia Pizzaria</h2>
+          <h2>Controle de caixa <strong>{user?.nome_empresa}</strong></h2>
+
 
           <div className="hour_date">
 

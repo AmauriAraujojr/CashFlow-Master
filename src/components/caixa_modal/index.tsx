@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FormReceitas, IFormReceitasComplete } from "./form_receitas";
 import { FormDespesas, IFormDespesasComplete } from "./form_despesas";
 import { CaixaContext } from "../../providers/CaixaContext";
@@ -11,10 +11,11 @@ import { AiFillCaretDown} from "react-icons/ai";
 
 
 export const CaixaModal = () => {
-  const { caixas, setModalCaixa, editTotal, setCaixas } =
+  const { caixas, setModalCaixa, editTotal} =
     useContext(CaixaContext);
   const { formReceitas, setFormReceitas } = useContext(ReceitasContext);
   const { formDespesas, setFormDespesas } = useContext(DespesasContext);
+  
 
   const atual_caixa = caixas[caixas.length - 1];
 

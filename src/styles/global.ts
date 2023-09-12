@@ -14,4 +14,13 @@ export const Global = createGlobalStyle`
     body{
         background: var(--color-gray);
     }
+
+    .default_logout{
+        background-color:black;
+        width:100vw;
+        height:100vh;
+        position:absolute;
+        opacity:80%;
+        
+    }
 `

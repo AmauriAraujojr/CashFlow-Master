@@ -1,6 +1,11 @@
+import { useContext } from "react";
 import { StyledHeaderControls } from "./style";
+import { CaixaContext } from "../../providers/CaixaContext";
+import { StyledContainer } from "../../styles/grid";
 
 export const HeaderControls = () => {
+
+  const{ setModalCaixa, addNewCaixa, modalCaixa}=useContext(CaixaContext)
   const meses = [
     "Jan",
     "Fev",
@@ -21,16 +26,31 @@ export const HeaderControls = () => {
     meses[data.getMonth()] +
     " - " +
     data.getFullYear() 
+
+
+    const newCaixa = () => {
+      setModalCaixa(!modalCaixa);
+      addNewCaixa();
+    };
    
   
   return (
     <StyledHeaderControls>
+      <StyledContainer>
+       <div className="flexBox">
+
+      <div className="add_caixa">
+
+        <button onClick={() => newCaixa()}>Novo Caixa</button>
         <h2>Fluxo de caixa em <span>{dataForm}</span></h2>
+
+      </div>
+
 
       <div className="select_container" >
         <h3>Escolha um data</h3>
         <select>
-          <option></option>
+          <option>Mês atual</option>
           <option>Janeiro</option>
           <option>Fevereiro</option>
           <option>Março</option>
@@ -45,6 +65,10 @@ export const HeaderControls = () => {
           <option>Desembro</option>
         </select>
       </div>
+
+       </div>
+
+      </StyledContainer>
     </StyledHeaderControls>
   );
 };

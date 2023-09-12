@@ -14,7 +14,7 @@ export const StyledCaixaCard = styled.li`
             gap:5px;
         }
     
-        .ul{
+        .ul_card{
             display:flex;
             flex-direction: column;
            

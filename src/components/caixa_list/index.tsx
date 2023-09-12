@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { CaixaContext } from "../../providers/CaixaContext";
 import { CaixaCard } from "./caixa_card";
 import { StyledCaixaList } from "./style";
-import { HeaderControls } from "../headerControls";
 
 export const CaixaList = () => {
   const { caixas } = useContext(CaixaContext);
@@ -28,7 +27,6 @@ export const CaixaList = () => {
 
   return (
     <StyledCaixaList>
-      <HeaderControls/>
       <ul>
 
       {dataCaixa.map((caixa) => {

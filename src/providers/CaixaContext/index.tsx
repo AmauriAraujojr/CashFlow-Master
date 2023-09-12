@@ -5,12 +5,13 @@ import { IReceitas } from "../ReceitasContext";
 
 interface ICaixaContext {
   caixas: ICaixa[];
-  addNewCaixa: () => Promise<void>;
+  addNewCaixa: () => Promise<void>
   deleteCaixa: (id: number) => Promise<void>;
   modalCaixa: boolean;
   setModalCaixa: React.Dispatch<React.SetStateAction<boolean>>;
   setCaixas: React.Dispatch<React.SetStateAction<ICaixa[]>>;
   editTotal: (id: number, valor: number) => Promise<void>;
+  getAllCaixas: (id:number) => Promise<void>
 }
 interface ICaixaProvider {
   children: React.ReactNode;
@@ -28,34 +29,47 @@ export const CaixaContext = createContext({} as ICaixaContext);
 export const CaixaProvider = ({ children }: ICaixaProvider) => {
   const [caixas, setCaixas] = useState<ICaixa[]>([]);
   const [modalCaixa, setModalCaixa] = useState(false);
-  
-  useEffect(() => {
-    const getAllCaixas = async () => {
+
+
+
+
+    const getAllCaixas = async (id:number) => {
+
+
       try {
-        const response = await Api.get("/caixa/", {});
+        const response = await Api.get(`/caixa/user/${id}/`);
 
         setCaixas(response.data);
       } catch (error) {
         console.log("Ops... Algo deu errado, tente novamente!");
       }
     };
-    getAllCaixas();
-  }, [caixas]);
-  
-  const addNewCaixa = async () => {
-    try {
-      const response = await Api.post("/caixa/");
 
+
+
+ const addNewCaixa = async () => {
+   
+  const id = localStorage.getItem("@USERID");
+
+
+    try {
+      const response =await Api.post(`/caixa/user/${id}/`
+     )
       setCaixas([...caixas, response.data]);
       console.log("Caixa criado com sucesso!");
     } catch (error) {
       console.log("Ops... Algo deu errado, tente novamente!");
     }
-  };
+  }
 
   const deleteCaixa = async (id: number) => {
+    const token = localStorage.getItem("@TOKEN");
+
     try {
-      await Api.delete(`/caixa/${id}/`);
+      await Api.delete(`/caixa/${id}/`,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+    }});
 
       const newCaixa = caixas.filter((caixa) => caixa.id !== id);
 
@@ -67,10 +81,15 @@ export const CaixaProvider = ({ children }: ICaixaProvider) => {
   };
 
   const editTotal = async (id: number, total: number) => {
+    const token = localStorage.getItem("@TOKEN");
+
     try {
       const response = await Api.patch(`/caixa/${id}/`, {
         total: total,
-      });
+      },{
+        headers: {
+          Authorization: `Bearer ${token}`,
+    }});
       setCaixas(response.data);
       setCaixas([...caixas]);
       console.log("Total atualizado com sucesso!");
@@ -89,6 +108,7 @@ export const CaixaProvider = ({ children }: ICaixaProvider) => {
         setModalCaixa,
         setCaixas,
         editTotal,
+        getAllCaixas
       }}
     >
       {children}
