@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const Api =axios.create({
-    baseURL:"http://localhost:8000/api",
+    baseURL:"https://cashflowmasterapi.onrender.com/api",
     timeout:50000
     
     })

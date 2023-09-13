@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { Api } from "../../../services";
 import { IFormReceitasComplete } from "../../components/caixa_modal/form_receitas";
+import { toast } from "react-toastify";
 
 interface IReceitasContext {
   receitas: IReceitas[];
@@ -51,9 +52,9 @@ export const ReceitasProvider = ({ children }: IReceitasProvider) => {
       });
 
       setReceitas([...receitas, response.data]);
-      alert("Nova receita cadastrada!");
+     toast.success("Nova receita cadastrada!");
     } catch (error) {
-      alert("Ops... Algo deu errado, tente novamente!");
+     toast.error("Ops... Algo deu errado, tente novamente!");
     } finally {
       setFormReceitas(false);
     }

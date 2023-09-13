@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { Api } from "../../../services";
 import { IFormDespesasComplete } from "../../components/caixa_modal/form_despesas";
+import { toast } from "react-toastify";
 
 interface IDespesasContext {
   despesas: IDespesas[];
@@ -45,9 +46,9 @@ export const DespesasProvider = ({ children }: IDespesasProvider) => {
       });
 
       setDespesas([...despesas, response.data]);
-      alert("Nova despesa cadastrada!");
+      toast.success("Nova despesa cadastrada!");
     } catch (error) {
-      alert("Ops... Algo deu errado, tente novamente!");
+    toast.error("Ops... Algo deu errado, tente novamente!");
     } finally {
       setFormDespesas(false);
     }

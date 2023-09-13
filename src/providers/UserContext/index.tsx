@@ -4,6 +4,7 @@ import jwtDecode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { IR } from "../../pages/Register/RegisterForm/formR.tsx";
 import { IF } from "../../pages/Login/LoginForm/loginf.tsx";
+import { toast } from "react-toastify";
 
 interface IUserProvider {
   children: React.ReactNode;
@@ -114,7 +115,7 @@ export const UserProvider = ({ children }: IUserProvider) => {
         nome_empresa: formdata.nome_empresa,
         avatar_empresa: formdata.avatar_empresa
       });
-      console.log("Empresa cadastrada com sucesso!");
+      toast.success("Empresa cadastrada com sucesso!");
       navigate("/")
       
     } catch (error) {

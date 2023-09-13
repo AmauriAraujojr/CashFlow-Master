@@ -71,7 +71,6 @@ export const CaixaProvider = ({ children }: ICaixaProvider) => {
     try {
       const response = await Api.post(`/caixa/user/${id}/`);
       setCaixas([...caixas, response.data]);
-      console.log("Caixa criado com sucesso!");
     } catch (error) {
       console.log("Ops... Algo deu errado, tente novamente!");
     }
@@ -113,7 +112,6 @@ export const CaixaProvider = ({ children }: ICaixaProvider) => {
       );
       setCaixas(response.data);
       setCaixas([...caixas]);
-      console.log("Total atualizado com sucesso!");
     } catch (error) {
       console.log("Ops... Algo deu errado, tente novamente!");
     }

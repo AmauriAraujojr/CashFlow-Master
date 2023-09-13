@@ -8,6 +8,7 @@ import { StyledCaixaModal } from "./styled";
 import { AiFillCaretUp} from "react-icons/ai";
 
 import { AiFillCaretDown} from "react-icons/ai";
+import { toast } from "react-toastify";
 
 
 export const CaixaModal = () => {
@@ -64,7 +65,7 @@ export const CaixaModal = () => {
   const closeCaixa = () => {
     editTotal(atual_caixa.id, total);
     setModalCaixa(false);
-    alert(`Caixa do dia ${dataFormatada} fechado com sucesso !`);
+    toast.success(`Caixa do dia ${dataFormatada} fechado com sucesso !`);
   };
 
   return (
