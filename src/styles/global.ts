@@ -21,6 +21,12 @@ export const Global = createGlobalStyle`
         height:100vh;
         position:absolute;
         opacity:80%;
+        margin:0 auto;
+        top:300px;
+        @media(min-width:800px){
+            top:130px;
+
+        }}
         
-    }
+    
 `

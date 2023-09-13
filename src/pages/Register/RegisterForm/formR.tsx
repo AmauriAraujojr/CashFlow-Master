@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { UserContext } from "../../../providers/UserContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterFormSchema } from "./schema";
+import { StyledFormRegister } from "./styled";
 
 export interface IR {
   username: string;
@@ -27,6 +28,10 @@ export const RegisterF = () => {
     addNewUser(formdata,setLoading)  };
 
   return (
+    <StyledFormRegister>
+      <div className={"input_container"}>
+
+<h3>Cadastro de Usuário</h3>
     <form onSubmit={handleSubmit(submit)}>
       <label htmlFor="username">Username</label>
       <input
@@ -78,5 +83,8 @@ export const RegisterF = () => {
 
       <button>{loading ? "Cadastrando..." : "Cadastrar"}</button>
     </form>
+
+    </div>
+    </StyledFormRegister>
   );
 };

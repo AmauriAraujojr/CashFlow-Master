@@ -1,11 +1,20 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { StyledHeaderControls } from "./style";
 import { CaixaContext } from "../../providers/CaixaContext";
 import { StyledContainer } from "../../styles/grid";
+import { SubmitHandler, useForm } from "react-hook-form";
 
+export interface ISelect {
+  data: string;
+}
 export const HeaderControls = () => {
+  const { setModalCaixa, addNewCaixa, modalCaixa, dates, filterCaixas } =
+    useContext(CaixaContext);
 
-  const{ setModalCaixa, addNewCaixa, modalCaixa}=useContext(CaixaContext)
+  const { register, handleSubmit } = useForm<ISelect>({});
+
+  const [form, setForm] = useState<any>();
+
   const meses = [
     "Jan",
     "Fev",
@@ -22,52 +31,65 @@ export const HeaderControls = () => {
   ];
 
   let data = new Date();
-  let dataForm =
-    meses[data.getMonth()] +
-    " - " +
-    data.getFullYear() 
+  let dataForm = meses[data.getMonth()] + " - " + data.getFullYear();
 
+  const newCaixa = () => {
+    setModalCaixa(!modalCaixa);
+    addNewCaixa();
+  };
 
-    const newCaixa = () => {
-      setModalCaixa(!modalCaixa);
-      addNewCaixa();
-    };
-   
-  
+  const submit: SubmitHandler<ISelect> = (formdata) => {
+    filterCaixas(formdata);
+    setForm(formdata);
+  };
+
+  let fDatef = "";
+
+  if (form) {
+    let fDate = new Date(form.data);
+    fDatef = meses[fDate.getMonth() + 1] + " - " + fDate.getFullYear();
+  } else {
+    fDatef = dataForm;
+  }
+
   return (
     <StyledHeaderControls>
       <StyledContainer>
-       <div className="flexBox">
+        <div className="flexBox">
+          <div className="add_caixa">
+            <button onClick={() => newCaixa()}>Novo Caixa</button>
 
-      <div className="add_caixa">
+            {form ? (
+              <h2>
+                Fluxo de caixa em <span>{fDatef}</span>
+              </h2>
+            ) : (
+              <h2>
+                Fluxo de caixa em <span>{dataForm}</span>
+              </h2>
+            )}
+          </div>
 
-        <button onClick={() => newCaixa()}>Novo Caixa</button>
-        <h2>Fluxo de caixa em <span>{dataForm}</span></h2>
+          <div className="select_container">
+            <h3>Escolha um data</h3>
+            <form onSubmit={handleSubmit(submit)}>
+              <select {...register("data")}>
+                {dates.map((date) => {
+                  let dateF = new Date(date);
+                  let dateFf =
+                    meses[dateF.getMonth() + 1] + " - " + dateF.getFullYear();
+                  return (
+                    <option key={date} value={date}>
+                      {dateFf}
+                    </option>
+                  );
+                })}
+              </select>
 
-      </div>
-
-
-      <div className="select_container" >
-        <h3>Escolha um data</h3>
-        <select>
-          <option>Mês atual</option>
-          <option>Janeiro</option>
-          <option>Fevereiro</option>
-          <option>Março</option>
-          <option>Abril</option>
-          <option>Maio</option>
-          <option>Junho</option>
-          <option>Julho</option>
-          <option>Agosto</option>
-          <option>Setembro</option>
-          <option>Outubro</option>
-          <option>Novembro</option>
-          <option>Desembro</option>
-        </select>
-      </div>
-
-       </div>
-
+              <button>Filtrar</button>
+            </form>
+          </div>
+        </div>
       </StyledContainer>
     </StyledHeaderControls>
   );

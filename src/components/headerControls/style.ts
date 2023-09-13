@@ -37,20 +37,30 @@ export const StyledHeaderControls = styled.div`
         flex-direction:column;
         gap:20px;
         align-items:center;
-
-        select{
-            width: 170px;
-            font-family: 'Roboto', sans-serif;
-            font-weight: 500;
-            font-size: 1rem;
-            border:1px solid var(--color-red1);
-            padding:5px;
-
-
-            ::placeholder{
-                color: rgba(255,255,255, .5);
+        form{
+            display: flex;
+            flex-direction: column;
+            gap:15px;
+            button{
+                font-weight:900;
+                font-size:.9rem;
+                color:goldenrod
             }
-    }
+
+            select{
+                width: 170px;
+                font-family: 'Roboto', sans-serif;
+                font-weight: 500;
+                font-size: 1rem;
+                border:1px solid goldenrod;
+                padding:5px;
+    
+    
+                ::placeholder{
+                    color: rgba(255,255,255, .5);
+                }
+        }
+        }
         }
 
         @media (min-width: 800px){

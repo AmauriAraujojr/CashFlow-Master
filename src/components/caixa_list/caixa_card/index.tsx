@@ -70,7 +70,7 @@ export const CaixaCard = ({ caixa }: ICAixaCard) => {
       <h3 id="data"><FcCalendar/> {dataFormatada}</h3>
       <h3> Saldo Anterior : R$ {caixa.saldo_anterior.toFixed(2)}</h3>
 
-      <div className={"ul"}>
+      <div className={"ul_card"}>
 
       {caixa.receitas.map((receita: any) => {
       return  <ReceitaCard key={receita.id} receita={receita}/>

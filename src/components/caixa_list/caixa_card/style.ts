@@ -2,7 +2,8 @@ import styled from "styled-components";
 
 export const StyledCaixaCard = styled.li`
     background: var(--color-white);
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    border: 1px solid goldenrod;
+
     padding: 25px 35px;
     display:flex;
     flex-direction:column;

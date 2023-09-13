@@ -19,7 +19,7 @@ export const ReceitaCard=({receita}:IReceitaCard)=>{
             {receita.tipo == "pix"? <p><MdPix/></p>:null}
 
             <p>{receita.nome}</p>
-            <p>R$: {receita.valor}</p>
+            <p>{receita.valor}</p>
 
         </StyledReceitaCard>        
     )

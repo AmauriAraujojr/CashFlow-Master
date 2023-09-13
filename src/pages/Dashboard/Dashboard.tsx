@@ -12,7 +12,6 @@ export const Dashboard = () => {
   const [defaultDiv, setDefaultDiv]= useState(false)
 
  
-
     
   useEffect(() => {
     const id = localStorage.getItem("@USERID");

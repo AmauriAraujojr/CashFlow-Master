@@ -1,9 +1,9 @@
 import styled from "styled-components";
+import {AnimationFadeIn3}from "../../styles/animation"
 
 export const StyledHeader = styled.header`
-   background: #F0F8FF;
-   box-shadow:2px 2px 7px ;
-   opacity:70%;
+   background: transparent;
+   box-shadow:1px 1px 7px goldenrod ;
    margin-bottom:50px;
 
    .flexBox {
@@ -12,6 +12,12 @@ export const StyledHeader = styled.header`
       align-items: center;
       justify-content: center;
       gap: 20px;
+      .logotipo{
+            color:goldenrod;
+            font-weight:900;
+            animation: ${AnimationFadeIn3} 1s ease;
+
+        }
 
          .img_container{
             display: flex;
@@ -52,7 +58,7 @@ export const StyledHeader = styled.header`
          li{
             display:flex;
             gap:5px;
-            font-size:1.2rem;
+            font-size:.9rem;
             font-weight:500;
          }
       }
