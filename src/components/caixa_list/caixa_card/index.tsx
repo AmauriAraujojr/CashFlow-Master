@@ -10,7 +10,7 @@ interface ICAixaCard {
 }
 
 export const CaixaCard = ({ caixa }: ICAixaCard) => {
-  const { caixas } = useContext(CaixaContext);
+  const { caixas,setModalCaixa,modalCaixa,setCaixaAtual } = useContext(CaixaContext);
 
   const meses = [
     "Jan",
@@ -29,8 +29,8 @@ export const CaixaCard = ({ caixa }: ICAixaCard) => {
 
   let data = new Date(caixa.data);
   let dataFormatada =
-    data.getDate() +
-    1 +
+    data.getDate()+1 +
+   
     " " +
     meses[data.getMonth()] +
     " " +
@@ -65,8 +65,13 @@ export const CaixaCard = ({ caixa }: ICAixaCard) => {
     caixa.saldo_anterior = 0;
   }
 
+  const openAtualCaixa=()=>{
+    setModalCaixa(!modalCaixa)
+    setCaixaAtual(caixa)
+  }
+
   return (
-    <StyledCaixaCard>
+    <StyledCaixaCard onClick={()=>openAtualCaixa()}>
       <h3 id="data"><FcCalendar/> {dataFormatada}</h3>
       <h3> Saldo Anterior : R$ {caixa.saldo_anterior.toFixed(2)}</h3>
 

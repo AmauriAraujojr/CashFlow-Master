@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { Api } from "../../../services";
 import { IDespesas } from "../DespesasContext";
 import { IReceitas } from "../ReceitasContext";
@@ -17,6 +17,8 @@ interface ICaixaContext {
   dates: string[];
   caixas2: ICaixa[]
   filterCaixas: (formdata: ISelect) => ICaixa[]
+  caixaAtual: ICaixa | undefined,
+  setCaixaAtual: React.Dispatch<React.SetStateAction<ICaixa | undefined>>
 }
 
 interface ICaixaProvider {
@@ -35,7 +37,7 @@ export const CaixaContext = createContext({} as ICaixaContext);
 export const CaixaProvider = ({ children }: ICaixaProvider) => {
   const [caixas, setCaixas] = useState<ICaixa[]>([]);
   const [caixas2, setCaixas2] = useState<ICaixa[]>([]);
-
+  const [caixaAtual, setCaixaAtual] = useState<ICaixa>()
   const [modalCaixa, setModalCaixa] = useState(false);
 
   let dataActual = new Date();
@@ -96,7 +98,6 @@ export const CaixaProvider = ({ children }: ICaixaProvider) => {
   };
 
   const editTotal = async (id: number, total: number) => {
-    const token = localStorage.getItem("@TOKEN");
 
     try {
       const response = await Api.patch(
@@ -104,11 +105,7 @@ export const CaixaProvider = ({ children }: ICaixaProvider) => {
         {
           total: total,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+       
       );
       setCaixas(response.data);
       setCaixas([...caixas]);
@@ -172,7 +169,9 @@ export const CaixaProvider = ({ children }: ICaixaProvider) => {
         dataFormatada,
         dates,
         caixas2,
-        filterCaixas
+        filterCaixas,
+        caixaAtual,
+        setCaixaAtual
        
       }}
     >

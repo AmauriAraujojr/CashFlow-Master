@@ -8,7 +8,7 @@ export interface ISelect {
   data: string;
 }
 export const HeaderControls = () => {
-  const { setModalCaixa, addNewCaixa, modalCaixa, dates, filterCaixas } =
+  const { setModalCaixa, addNewCaixa, modalCaixa, dates, filterCaixas} =
     useContext(CaixaContext);
 
   const { register, handleSubmit } = useForm<ISelect>({});
@@ -34,8 +34,8 @@ export const HeaderControls = () => {
   let dataForm = meses[data.getMonth()] + " - " + data.getFullYear();
 
   const newCaixa = () => {
-    setModalCaixa(!modalCaixa);
     addNewCaixa();
+    setModalCaixa(!modalCaixa);
   };
 
   const submit: SubmitHandler<ISelect> = (formdata) => {
@@ -69,6 +69,7 @@ export const HeaderControls = () => {
               </h2>
             )}
           </div>
+          
 
           <div className="select_container">
             <h3>Escolha um data</h3>

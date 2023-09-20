@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { FormReceitas, IFormReceitasComplete } from "./form_receitas";
 import { FormDespesas, IFormDespesasComplete } from "./form_despesas";
 import { CaixaContext } from "../../providers/CaixaContext";
@@ -12,13 +12,21 @@ import { toast } from "react-toastify";
 
 
 export const CaixaModal = () => {
-  const { caixas, setModalCaixa, editTotal} =
+  const { caixas, setModalCaixa, editTotal,caixaAtual,setCaixaAtual} =
     useContext(CaixaContext);
   const { formReceitas, setFormReceitas } = useContext(ReceitasContext);
   const { formDespesas, setFormDespesas } = useContext(DespesasContext);
   
 
-  const atual_caixa = caixas[caixas.length - 1];
+  let atual:any=""
+    if(caixaAtual==undefined){
+  
+      atual= caixas[caixas.length - 1]
+    } 
+    else{
+      atual = caixaAtual
+    }
+
 
   const meses = [
     "Jan",
@@ -63,9 +71,14 @@ export const CaixaModal = () => {
   const total = Number(receitas) - Number(despesas);
 
   const closeCaixa = () => {
-    editTotal(atual_caixa.id, total);
+    
+
+      editTotal(atual.id, total);
+    
     setModalCaixa(false);
     toast.success(`Caixa do dia ${dataFormatada} fechado com sucesso !`);
+
+    setCaixaAtual(undefined)
   };
 
   return (
@@ -93,7 +106,7 @@ export const CaixaModal = () => {
       {formReceitas ? (
         <>
           <FormReceitas
-            id={atual_caixa.id}
+            id={atual.id}
             getFormDataReceitas={getFormDataReceitas}
           />
         </>
@@ -102,7 +115,7 @@ export const CaixaModal = () => {
       {formDespesas ? (
         <>
           <FormDespesas
-            id={atual_caixa.id}
+            id={atual.id}
             getFormDataDespesas={getFormDataDespesas}
           />
         </>

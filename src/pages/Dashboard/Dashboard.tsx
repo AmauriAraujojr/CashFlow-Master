@@ -4,7 +4,6 @@ import { Header } from "../../components/header";
 import { StyledContainer } from "../../styles/grid";
 import { CaixaContext } from "../../providers/CaixaContext";
 import { CaixaModal } from "../../components/caixa_modal";
-import { UserContext } from "../../providers/UserContext";
 import { HeaderControls } from "../../components/headerControls";
 
 export const Dashboard = () => {
