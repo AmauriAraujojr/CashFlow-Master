@@ -98,7 +98,7 @@ export const CaixaProvider = ({ children }: ICaixaProvider) => {
   };
 
   const editTotal = async (id: number, total: number) => {
-
+  
     try {
       const response = await Api.patch(
         `/caixa/${id}/`,
@@ -154,6 +154,7 @@ export const CaixaProvider = ({ children }: ICaixaProvider) => {
    return filtro
 
   }
+
 
   return (
     <CaixaContext.Provider

@@ -70,6 +70,8 @@ export const CaixaCard = ({ caixa }: ICAixaCard) => {
     setCaixaAtual(caixa)
   }
 
+  caixa.total= receitas-despesas
+
   return (
     <StyledCaixaCard onClick={()=>openAtualCaixa()}>
       <h3 id="data"><FcCalendar/> {dataFormatada}</h3>

@@ -5,7 +5,6 @@ import { StyledForm } from "./styled";
 
 interface IFormreceitas {
   id: number;  
-  getFormDataReceitas: (formdata: IFormReceitasComplete) => void
 
 }
 
@@ -15,14 +14,13 @@ export interface IFormReceitasComplete {
  tipo:string
 }
 
-export const FormReceitas = ({ id, getFormDataReceitas }: IFormreceitas) => {
+export const FormReceitas = ({ id}: IFormreceitas) => {
 
   const { register, handleSubmit } = useForm<IFormReceitasComplete>();
   const { addNewReceitas,setFormReceitas } = useContext(ReceitasContext);
 
   const submit:SubmitHandler<IFormReceitasComplete> = (formData) => {
     addNewReceitas(formData, id);
-    getFormDataReceitas(formData)
   };
 
   return (

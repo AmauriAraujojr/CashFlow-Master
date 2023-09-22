@@ -11,6 +11,7 @@ interface IReceitasContext {
   ) => Promise<void>;
   formReceitas: boolean;
   setFormReceitas: React.Dispatch<React.SetStateAction<boolean>>;
+  setReceitas: React.Dispatch<React.SetStateAction<IReceitas[]>>
 }
 interface IReceitasProvider {
   children: React.ReactNode;
@@ -62,7 +63,7 @@ export const ReceitasProvider = ({ children }: IReceitasProvider) => {
 
   return (
     <ReceitasContext.Provider
-      value={{ receitas, addNewReceitas, formReceitas, setFormReceitas }}
+      value={{ receitas, addNewReceitas, formReceitas, setFormReceitas,setReceitas }}
     >
       {children}
     </ReceitasContext.Provider>

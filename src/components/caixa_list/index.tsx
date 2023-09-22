@@ -13,7 +13,6 @@ export const CaixaList = () => {
   const totalCaixa = dataCaixa.map((caixa) => {
     return Number(caixa.total);
   });
-
   const totalCaixas = totalCaixa.reduce((anterior, proximo) => {
     return anterior + proximo;
   }, 0);
@@ -91,6 +90,7 @@ export const CaixaList = () => {
   const despesasTotal = despesas.reduce((anterior, proximo) => {
     return anterior + proximo;
   }, 0);
+
 
   return (
     <StyledCaixaList>
